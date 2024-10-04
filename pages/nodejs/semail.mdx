@@ -1,0 +1,110 @@
+# Sending Email using   Node js 
+
+
+
+# loading updated 
+
+
+ ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+  ```hash copy filename="> "
+
+ ```
+
+
+
+  ```hash copy filename="> "
+
+ ```
+
+
+
+  ```hash copy filename="> "
+
+ ```
+
+
+
+  ```hash copy filename="> "
+
+ ```
+
+
+  ```hash copy filename="> "
+
+ ```
+
+{/* 
+  ```hash copy filename="> "
+  import { Request, Response } from "express";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
+ 
+const prisma = new PrismaClient();
+ 
+export const changePassword = async (req: Request, res: Response) => {
+  const { token } = req.params;
+  const { newPassword } = req.body;
+ 
+  try {
+    const user = await prisma.user.findFirst({
+      where: {
+        resetToken: token,
+        resetTokenExpiry: { gte: new Date() },
+      },
+    });
+ 
+    if (!user) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+ 
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+ 
+    // Update the user's password and clear the reset token and expiry
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        password: hashedPassword,
+        resetToken: null,
+        resetTokenExpiry: null,
+      },
+    });
+ 
+    res.status(200).json({ message: "Password changed successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
+
+ ``` */}

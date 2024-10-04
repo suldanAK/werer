@@ -1,0 +1,558 @@
+# Uploadthing inage uploads 
+
+## installation 
+
+ ```hash copy filename=">Terminal "
+npm install uploadthing
+
+```
+
+`Uploadthing` waa adeeg sahlan oo u oggolaanaya isticmaaleyaasha inay si fudud u abuuraan adeegyo ama API-yada lagu kaydiyo faylasha. Waa qalab loogu talagalay horumariyeyaasha 
+(developers) si ay si fudud ugu daraan shaqada dirista iyo kaydinta faylasha codsiyadooda. Waxay la jaanqaadi kartaa teknoolojiyado kala duwan sida Next.js, si loo abuuro nidaam 
+fudud oo faylalka loo kala wareejin karo loona kaydin karo.
+
+## Faa'iidooyinka Uploadthing:
+
+### Fududeynta 
+shaqada kaydinta faylasha: Waxay ka dhigeysaa hawsha isku dhufashada iyo dirista faylasha mid aad u fudud, gaar ahaan marka la isticmaalayo frameworks-ka casriga ah 
+sida Next.js iyo kuwa la midka ah.
+### Waqti badbaadin: 
+Horumarinta API-gaaga u gaar ah ee faylalka waa hawl culus oo waqti badan qaadata. Uploadthing waxay kuu fududeyneysaa inaad diiradda saarto dhinacyada kale ee horumarinta
+ codsigaaga.
+### Ammaan iyo isku haleyn:
+ Waxay bixisaa ilaalin amni leh oo faylasha la xakameeyo, iyadoo ka hortagaysa in faylasha sirta ah si fudud loo helo ama loo lumiyo.
+La jaanqaadista codsiyada kala duwan: Waxay ku shaqeyn kartaa barnaamijyo badan oo kala duwan, sida web apps ama mobile apps, iyadoo si fudud loogu daro API-yadooda.
+Isku-darka xawaare sare leh: Waxaad si fudud ugu dari kartaa Uploadthing koodkaaga, taasoo ka dhigan inay si hufan ugu shaqeyn karto mashruuc kasta oo aad ka shaqeyneyso.
+Sidaas darteed, Uploadthing waa xal lagu horumarinayo shaqooyinka kaydinta faylasha iyada oo la fududeeyo loona soo hormariyo waayo-aragnimada isticmaalaha iyo
+horumariyaha labadaba.
+
+
+Koodka wuxuu u shaqeeyaa soo gelinta faylasha adigoo isticmaalaya uploadthing gudaha Next.js. Waa kuwan tusaale aad ku fahmi karta :
+
+1.	Importing createUploadthing:
+
+ ```hash copy filename=">Terminal "
+`import { createUploadthing } from "uploadthing/next";
+```
+
+
+o	Qaybtaan koodka waxay ka keentaa hawsha createUploadthing maktabadda uploadthing, taas oo loogu talagalay in lagu isticmaalo Next.js.
+
+
+ ```hash copy filename=">Terminal "
+const f = createUploadthing();
+o	Halkan, waxaa la abuurayaa instance cusub oo ka socda uploadthing iyadoo la isticmaalayo createUploadthing, waxaana lagu kaydiyaa f. Instance-kan waxaa loo isticmaali doonaa in lagu qeexo wadooyinka lagu maareynayo faylasha la soo geliyo.
+3.	Qeexidda ourFileRouter:
+
+export const ourFileRouter = {
+  // Define as many FileRoutes as you like, each with a unique routeSlug
+  categoryimageuploade: f({ image: { maxFileSize: "0.5MB" } })
+    // Set permissions and file types for this FileRoute
+    .onUploadComplete(async ({ metadata, file }) => {
+      console.log("file url", file.url, metadata);
+    }),
+};
+```
+
+
+
+
+o	ourFileRouter: Object-kan wuxuu ka kooban yahay wadooyin loogu talagalay soo gelinta faylasha. Waxaad ku qeexi kartaa wadooyin badan oo mid walba uu leeyahay magac gaar
+ ah (routeSlug).
+o	categoryimageuploade: Tani waa magaca (routeSlug) wado gaar ah oo loogu talagalay soo gelinta faylasha. Waxay isticmaashaa instance-ka f ee la abuuray horay si loo 
+qeexo dejinta wado-kan.
+
+
+ ```hash copy filename=">Terminal "
+	f({ `image` / { maxFileSize: "0.5MB" } }): 
+```
+ Tani waxay qeexeysaa wado soo gelinta faylka oo kaliya u oggolaaneysa faylasha sawirada, iyadoo cabirka faylka ugu badanna uu
+ yahay 0.5MB. ama adiga ku badali karta size rabto 
+o	onUploadComplete: Tani waa shaqo-celiska (callback function) taasoo fulisa ka dib marka fayl la soo geliyo si guul ah. Xaaladdan, waxay daabacaysaa URL-ka faylka la soo 
+geliyay iyo metadata kasta oo ku jira console-ka.
+
+
+Sharaxaad tuusale kale 
+
+Code-kan wuxuu u adeegaa in lagu maareeyo soo gelinta faylasha (file uploads) gudaha Next.js iyadoo la isticmaalayo uploadthing package. Waa kan waxa qayb kasta oo code-ka ah
+ qabato:
+
+
+ ```hash copy filename=">Terminal "
+(Import) createNextRouteHandler:
+import { createNextRouteHandler } from "uploadthing/next";
+``` 
+
+o	Khadkan wuxuu soo dejinayaa (import) shaqada (function) createNextRouteHandler ee ka socota uploadthing package-ka, taas oo kuu sahlaysa inaad abuurto maareeyayaasha
+ wadooyinka (route handlers) ee Next.js.
+
+2.	Soo Dejinta ourFileRouter:
+
+ ```hash copy filename=">Terminal "
+import { ourFileRouter } from "./core";
+``` 
+
+o	Khadkan wuxuu soo dejinayaa (import) ourFileRouter object-ka, kaas oo hore loogu qeexay (define) fayl kale oo loogu magac daray core. Waxay ku jirtaa dhammaan wadooyinka 
+loo adeegsanayo soo gelinta faylasha (file upload routes).
+3.	Dhoofinta Wadooyinka (Routes) ee Next App Router:
+
+
+ ```hash copy filename=">Terminal "
+export const { GET, POST } = createNextRouteHandler({
+  router: ourFileRouter,
+});
+```
+
+o	Qaybtan waxay abuurtaa oo dhoofisaa (export) laba wadood oo loogu talagalay HTTP GET iyo POST. Waxaa loo adeegsadaa createNextRouteHandler shaqadeeda, oo ku xiran
+ ourFileRouter. Tan macnaheedu waa faylka uu leeyahay ourFileRouter wuxuu maareeyaa codsiyada GET iyo POST, taas oo la xiriirta faylasha la soo gelinayo.
+Isku Soo Wada Duub
+Code-kan wuxuu kuu oggolaanayaa inaad si fudud u maamusho soo gelinta faylasha ee Next.js, adigoo u samaynaya wadooyin si fiican loo maareeyey oo ku habboon HTTP GET iyo POST. 
+Faylasha la soo geliyaa waxay mari doonaan wadooyinkan, halkaas oo lagu xaqiijinayo in la buuxiyo xeerarka (rules) la dejiyay, sida cabbirka faylka iyo noocyada la oggol yahay
+
+
+Sharaxaad tusaale kale 
+Kani waa kood React ah oo la adeegsaday thưsi ama thưdi loo yaqaan @uploadthing/react. Qaybtan waxay abuureysaa oo soo dejinaysaa saddex component oo kala ah UploadButton, 
+UploadDropzone, iyo Uploader, kuwaas oo loo isticmaali karo si loo xakameeyo upload-ka faylasha.
+
+Faahfaahinta Qaybaha 
+
+1.	 generateComponents:
+
+ ```hash copy filename=">Terminal "
+import { generateComponents } from "@uploadthing/react";
+```
+
+
+
+
+o	generateComponents: Function-kan waxaa laga soo dejiyey thưsida @uploadthing/react. Waxaa loo adeegsadaa in lagu abuuro oo lagu soo dejiyo components-yada kala 
+duwan ee lagu maamulo upload-ka faylasha.
+
+2.	Abuuridda iyo Soo Dejinta Components-yada:
+
+
+ ```hash copy filename=">Terminal "
+export const { UploadButton, UploadDropzone, Uploader } = generateComponents();
+```
+
+
+
+o	UploadButton: Waa component button ah oo loo isticmaalo in lagu bilaabo upload-ka faylasha marka la riixo.
+o	UploadDropzone: Waa component u oggolaanaya isticmaalaha inuu faylasha ku jiido (drag-and-drop) si loo upload gareeyo.
+o	Uploader: Waa component-ka guud ee xakameeya upload-ka oo laga yaabo inuu ka kooban yahay UploadButton iyo UploadDropzone ama qaybaha kale ee upload-ka.
+Shaqada: Koodkani wuxuu abuuraa saddex component oo muhiim u ah upload-ka faylasha gudaha React. Components-yadan waxaa si sahlan loo isticmaali karaa gudaha 
+ wax kasta oo React component ah si loo sameeyo upload-ka faylasha iyadoo la adeegsanayo badhan, drag-and-drop, ama qaabab kale oo upload. Waxay fududeynayaan 
+ habka upload-ka iyadoo la soo dejinayo oo la xakameynayo qaybahaas.
+
+
+
+
+Koodka kor ku xusan waa qayb ka mid ah React component oo loo yaqaan ImageInput. Kani waa component u oggolaanaya isticmaalaha inuu geliyo sawir ama beddelo sawirka hadda jira.
+
+Faahfaahinta Qaybaha Koodka:
+
+
+
+ ```hash copy filename=">Terminal "
+
+`import { UploadDropzone } from "@/lib/uploadthing";
+import { Pencil } from "lucide-react";
+import Image from "next/image";
+import React from "react";
+import toast from "react-hot-toast";`
+```
+
+
+o	UploadDropzone: Waxaa laga soo dejiyey thưsida /lib/uploadthing, waxayna u oggolaanaysaa isticmaalaha inuu sawirro geliyo.
+o	Pencil: Waa icon qalin ka socda thưsida (`lucide-react.` file home ka helaysa faahfaahin dherad ah ) 
+o	Image: Waxaa laga soo dejiyey thưsida next/image, waxayna isticmaashaa sawirrada Next.js.
+o	React: Waxaa loo adeegsadaa in la abuuro component React ah.
+o	toast: Waxaa laga soo dejiyey , (`react-hot-toast.` file home ka helaysa faahfaahin dherad ah )  waxaana loo adeegsadaa in fariin degdeg ah la soo bandhigo.
+
+
+
+ ```hash copy filename=">Terminal "
+export default function ImageInput({
+  label,
+  imageUrl = "",
+  setImageUrl,
+  className = "col-span-full",
+  endpoint = "imageUploader",
+}) { ... }
+o	label: Waa qoraal tilmaam ah oo lagu muujiyo waxa isticmaaluhu soo galinayo, sida "Sawirkaaga geli".
+o	imageUrl: Waa URL-ka sawirka hadda jira. Haddii sawir la gelin, waxay noqonaysaa faaruq.
+o	setImageUrl: Waa function lagu hagaajinayo URL-ka sawirka cusub.
+o	className: Waa class-ka CSS ee lagu dabaqayo element-kan.
+o	endpoint: Waa magaca API endpoint-ka loo isticmaalo sawir gelinta.
+3.	Qaabka iyo Shaqada ImageInput:
+o	Label iyo Badhan Beddelka Sawirka:
+
+
+<div className="flex justify-between items-center mb-4">
+  <label htmlFor="course-image" className="block text-sm font-medium leading-6 text-gray-900">
+    {label}
+  </label>
+  {imageUrl && (
+    <button onClick={() => setImageUrl("")} type="button" className="flex space-x-2 bg-slate-900 rounded-md shadow text-slate-50 py-2 px-4">
+      <Pencil className="w-5 h-5" />
+      <span>Change Image</span>
+    </button>
+  )}
+</div>
+	label: Qoraal tilmaam ah oo u muuqda isticmaalaha.
+	button: Haddii sawir la geliyey, badhankan wuxuu u oggolaanayaa isticmaalaha inuu beddelo sawirka.
+o	Sawirka ama UploadDropzone:
+
+{imageUrl ? (
+  <Image src={imageUrl} alt="Item image" width={1000} height={667} className="w-full h-64 object-cover" />
+) : (
+  <UploadDropzone
+    endpoint={endpoint}
+    onClientUploadComplete={(res) => {
+      setImageUrl(res[0].url);
+      toast.success("Image Upload Completed");
+      console.log("Files: ", res);
+      console.log("Upload Completed");
+    }}
+    onUploadError={(error) => {
+      toast.error("Uploading Image failed please try again");
+      console.log(`ERROR! ${error.message}`);
+    }}
+  />
+)}
+```
+
+
+
+
+
+ ```hash copy filename=">Terminal "
+
+```
+
+
+	imageUrl: Haddii sawir jiro, sawirka ayaa la soo bandhigayaa.
+	UploadDropzone: Haddii sawir aan la gelin, waxaa la soo bandhigayaa UploadDropzone si sawirka loo geliyo.
+	onClientUploadComplete: Marka sawir la geliyo guuleysto, URL-ka sawirka cusub ayaa la dhigaa setImageUrl iyo fariin guul ah oo la soo bandhigayaa.
+	onUploadError: Haddii sawirka gelintiisu ku guuldareysto, waxaa la soo bandhigayaa fariin qalad ah.
+
+Shaqada: Component-kan wuxuu isticmaalaha u oggolaanayaa inuu sawir geliyo, beddelo, ama uu arko sawirka la geliyey. Waa qayb muhiim ah 
+oo ka mid ah form-ka ama interface-ka isticmaale ee loogu talagalay gelinta iyo maaraynta sawirrada.
+
+##  generateSlug
+
+Kani waa function loo yaqaan generateSlug, kaas oo loogu talagalay in uu abuuro slug oo nadiif ah, oo ku saleysan ciwaan la bixiyay. Slug-gu waa qayb ka mid ah URL-ka kaas 
+oo badanaa loo adeegsado in lagu muujiyo magac ama ciwaan si uu u noqdo mid ku habboon akhristayaasha iyo raadinta (SEO).
+Faahfaahinta Qaybaha Koodka:
+1.	Function-ka generateSlug:
+
+
+
+ ```hash copy filename=">Terminal "
+export function generateSlug(title) { ... }
+```
+
+o	title: Waa ciwaanka ama qoraalka asalka ah ee la doonayo in laga abuuro slug.
+o	slug: Waa natiijada ugu dambeysa ee loo sameeyo iyada oo la marsiinayo tillaabooyin kala duwan.
+
+2.	Tillaabooyinka lagu abuurayo slug:
+
+
+ ```hash copy filename=">Terminal "
+const slug = title
+  .toLowerCase() // Convert the title to lowercase
+  .replace(/\s+/g, "-") // Replace spaces with dashes
+  .replace(/[^\w\-]+/g, "") // Remove non-word characters except dashes
+  .replace(/\-\-+/g, "-") // Replace multiple consecutive dashes with a single dash
+  .replace(/^\-+/, "") // Remove dashes from the beginning
+  .replace(/\-+$/, ""); // Remove dashes from the end
+o	.toLowerCase(): Waxa ay ciwaanka oo dhan ka dhigtaa xarfo yaryar, si ay slug-gu ugu ekaadaan mid isku mid ah, xataa haddii xarfo waaweyn lagu qoray.
+o	.replace(/\s+/g, "-"): Waxay boosaska bannaan ee ciwaanka ku beddeshaa dashes -, taas oo ka dhigaysa URL-ka mid waxtar leh oo ku habboon isticmaalka.
+o	.replace(/[^\w-]+/g, ""): Waxay meesha ka saartaa dhammaan calaamadaha aan ahayn xarfo, tirooyin, iyo dashes, taas oo hagaajinaysa nadaafadda slug-ga.
+o	.replace(/--+/g, "-"): Haddii dashes badan ay isku xigaan, waxay ku beddeshaa mid kaliya, si looga fogaado wax aan fiicnayn.
+o	.replace(/^-+/, "") iyo .replace(/-+$/, ""): Waxay meesha ka saaraan dashes-ka ku yaal bilowga iyo dhammaadka slug-ga, si natiijada ugu dambaysa ay u ahaato mid 
+nadiif ah.
+```
+
+3.	Natiijada Function-ka:
+
+
+return slug;
+o	return slug: Waxaa dib loogu soo celinayaa slug-ga ugu dambeysa ee la hagaajiyey, kaas oo loo isticmaali karo URL-ka ama si kale.
+Shaqada: Function-ka generateSlug wuxuu u oggolaanayaa in ciwaan kasta laga abuuro slug nadiif ah oo ku habboon isticmaalka URL, taas oo wanaajinaysa
+ SEO iyo habsami u socodka isticmaalka. Tusaale ahaan, haddii title uu yahay` "Hello World! This is a Test",` slug-gu wuxuu noqon doonaa `"hello-world-this-is-a-test".`
+
+ # loading updated insh allah 
+
+{/* 
+// Sharaxaad:
+// Kani waa React component oo loo yaqaan SubmiteButton, kaas oo abuura badhan submit ah oo beddelmaya hadba xaaladda ay ku jirto, haddii hawsha ay socoto ama aanay socon. Badhanka waxa uu leeyahay laba xaaladood: midka loading (marka hawshu socoto) iyo midka caadiga ah (marka badhanka la riixo si hawsha loo bilaabo).
+// Faahfaahinta Qaybaha Koodka:
+// 1.	Qaybta Soo Dejinta:
+// javascript
+// Copy code
+// import { Plus } from "lucide-react";
+// import React from "react";
+// o	Plus: Waxaa laga soo dejiyey thưsida lucide-react waana icon plus (+) ah.
+// o	React: Waxaa loo adeegsadaa in la abuuro React component.
+// 2.	Component-ka SubmiteButton:
+// javascript
+// Copy code
+// export default function SubmiteButton({ isLoading= false, Titlebutton, loadingbuttontitle }) {` ...` }
+// o	isLoading: Waa boollean oo tilmaamaya in hawsha ay socoto (true) ama aanay socon (false). Qiimaha asalka ah waa false.
+// o	Titlebutton: Waa qoraalka la soo bandhigi doono marka badhanka uu caadi yahay.
+// o	loadingbuttontitle: Waa qoraalka la soo bandhigi doono marka hawsha loading-ku ay socoto.
+// 3.	Qaabka iyo Shaqada SubmiteButton:
+// javascript
+// Copy code
+// return (
+//   <div className="sm:col-span-1">
+//     {isLoading ? (
+//       <button
+//         disabled
+//         type="button"
+//         className="mt-4 text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 inline-flex items-center"
+//       >
+//         <svg
+//           aria-hidden="true"
+//           role="status"
+//           className="inline w-4 h-4 mr-3 text-white animate-spin"
+//           viewBox="0 0 100 101"
+//           fill="none"
+//           xmlns="http://www.w3.org/2000/svg"
+//         >
+//           <path
+//             d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+//             fill="#E5E7EB"
+//           />
+//           <path
+//             d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+//             fill="currentColor"
+//           />
+//         </svg>
+//         {loadingbuttontitle}
+//       </button>
+//     ) : (
+//       <button
+//         type="submit"
+//         className="inline-flex items-center px-5 py-4 mt-4 sm:mt-6 text-sm font-medium text-center p-5 text-slate-800 dark:text-white bg-lime-500 dark:bg-slate-500 rounded-lg 
+//         focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-lime-400 dark:hover:bg-slate-400 "
+//       >
+//         <Plus className="w-5 h-5 mr-2" />
+//         <span>Save {Titlebutton}</span>
+//       </button>
+//     )}
+//   </div>
+// );
+// o	isLoading = true: Haddii hawsha loading-ku socoto, waxaa la soo bandhigayaa badhan uu ku jiro icon loading (wareegaya) iyo qoraalka loading (loadingbuttontitle). ,
+{/* Badhanku waaa, naafo `(disabled`) oo lama riixi karo. */}
+
+
+
+ {/* isLoading = false: Haddii hawsha loading-ku aanay socon, waxaa la soo bandhigayaa badhan submit oo caadi ah, oo leh icon plus iyo qoraalka Save {`Titlebutton`}.
+ {/* Shaqada: SubmiteButton wuxuu u adeegsadaa React si uu u abuuro badhan submit oo beddeli kara xaaladaha, iyadoo lagu saleynayo haddii hawsha loading ay socoto ama aanay socon.
+ Tani waxay ka caawisaa isticmaalaha inuu arko marka hawsha la gudajiro oo aanay jirin wax kale oo la sameyn karo ilaa ay dhamaato. Badhankan waxaa loo isticmaali karaa 
+ qayb kasta oo form ah ama meel kasta oo looga baahan yahay submit button.  */} */}
+
+{/* // Sharaxaad:
+// Kani waa React component oo loo yaqaan TextareaInput, kaas oo abuura input nooca textarea ah oo loo adeegsado foomamka (forms). Component-kan wuxuu leeyahay xulashooyin kala duwan sida label, magaca textarea, haddii uu yahay mid khasab ah ama maya, iyo sidoo kale xakameyn lagu sameeyo haddii ay jiraan qaladaad inta lagu jiro xaqiijinta (validation).
+// Faahfaahinta Qaybaha Koodka:
+// 1.	"use client" Directive:
+// javascript
+// Copy code
+// "use client";
+// o	Tani waa tilmaame loogu talagalay in laga saaro server-side rendering (SSR) oo loo adeegsado koodka xagga macmiilka (client-side). Waxaa loo adeegsadaa React server components-ka si loo xaqiijiyo in koodkan uu si toos ah ugu shaqeynayo dhinaca macmiilka (client-side).
+// 2.	Props-yada TextareaInput:
+// javascript
+// Copy code
+// export default function TextareaInput({
+//   label,
+//   name,
+//   register,
+//   errors,
+//   isRequired = true,
+//   className = "sm:col-span-2",
+// }) { ... }
+// o	label: Waa qoraalka loogu talagalay calaamadda (label) ee textarea-ga.
+// o	name: Waa magaca loo isticmaalo textarea-ga si loo aqoonsado gudaha foomka.
+// o	register: Waa method laga helo thưdiyaasha foomamka sida react-hook-form oo loo adeegsado in lagu diiwaan geliyo textarea-ga si loo xakameeyo xogta.
+// o	errors: Waa object ka kooban qaladaadka ka dhashay xaqiijinta xogta ee foomka.
+// o	isRequired: Waa boollean tilmaamaya in textarea-ga uu khasab yahay ama maya. Qiimaha asalka ah waa true.
+// o	className: Waa class-yo dheeraad ah oo loogu talagalay habeynta CSS.
+// 3.	Qaabka iyo Shaqada TextareaInput:
+// javascript
+// Copy code */}
+{/* // return (
+//   <div className={className}>
+//     <label
+//       htmlFor={name}
+//       className="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50 mb-2 "
+//     >
+//       {label}
+//     </label>
+//     <div className="mt-2">
+//       <textarea
+//         {...register(`${name}`, { required: isRequired })}
+//         name={name}
+//         id={name}
+//         rows={3}
+//         placeholder={`Type the ${label.toLowerCase()}`}
+//         className="block bg-slate-50 dark:bg-slate-700  p-5 w-full rounded-md border-0 py-3 text-slate-700 dark:text-slate-50 shadow-sm ring-1 ring-inset ring-gray-300
+//            placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-lime-800 dark:focus:ring-lime-800 sm:text-sm sm:leading-6"
+//         defaultValue={""}
+//       />
+//       {errors[`${name}`] && (
+//         <span className="text-sm text-red-600 ">{label} is required</span>
+//       )}
+//     </div>
+//   </div>
+// ); */}
+{/* // o	Label-ka: Waxay ku muujineysaa qoraalka loo dejiyey textarea-ga iyadoo loo adeegsanayo tag-ga <label>.
+// o	Textarea-ga: Textarea-ga waxaa lagu diiwaan geliyaa iyada oo la adeegsanayo method-ka register si loo xakameeyo xogta. Waxaa lagu darayaa magac, placeholder,
+ iyo class-yo loogu talagalay qaabka iyo naqshadda.
+// o	Error Message: Haddii textarea-ga uu khasab yahay (isRequired) oo aan la buuxinin, qoraalka qaladka ah ayaa la soo bandhigayaa.
+// Shaqada: TextareaInput waa component aad u habeysan oo si sahlan loogu dari karo foomamka gudaha React. Waxaa loogu talagalay in lagu abuuro input textarea ah oo la
+ xaqiijin karo haddii uu khasab yahay ama maya. Waxaa la socda error handling si loo muujiyo qaladaadka la xiriira buuxinta textarea-ga. Naqshadeynta component-kan waxa ay */}
+  {/* taageertaa midabka madow iyo cad (dark mode and light mode). */}
+
+{/* 
+// Sharaxaad:
+// Kani waa React component loo yaqaan TextInput, kaas oo loo adeegsado in lagu abuuro input ka mid ah foomamka (forms). TextInput wuxuu kuu ogolaanayaa inaad abuurto input nooca text ah oo leh xulashooyin kala duwan sida label, magaca input, nooca input (text, email, password iwm.), iyo xakameyn lagu sameeyo haddii ay jiraan qaladaad inta lagu jiro xaqiijinta (validation).
+// Faahfaahinta Qaybaha Koodka:
+// 1.	"use client" Directive:
+// javascript
+// Copy code
+// "use client"
+// o	Tani waa tilmaame loogu talagalay in laga saaro server-side rendering (SSR) oo loo adeegsado koodka xagga macmiilka (client-side). Waxaa loo adeegsadaa React server components-ka si loo xaqiijiyo in koodkan uu si toos ah ugu shaqeynayo dhinaca macmiilka (client-side).
+// 2.	Props-yada TextInput:
+// javascript
+// Copy code
+// export default function TextInput({
+//   label,
+//   name,
+//   register,
+//   errors,
+//   isRequired = true,
+//   type = "text",
+//   className = "sm:col-span-2",
+//   defaultValue=""
+// }) { ... }
+// o	label: Waa qoraalka loogu talagalay calaamadda (label) ee input-ka.
+// o	name: Waa magaca loo isticmaalo input-ka si loo aqoonsado gudaha foomka.
+// o	register: Waa method laga helo thưdiyaasha foomamka sida react-hook-form oo loo adeegsado in lagu diiwaan geliyo input-ka si loo xakameeyo xogta.
+// o	errors: Waa object ka kooban qaladaadka ka dhashay xaqiijinta xogta ee foomka.
+// o	isRequired: Waa boollean tilmaamaya in input-ku uu khasab yahay ama maya. Qiimaha asalka ah waa true.
+// o	type: Waa nooca input-ka (e.g., text, email, password). Qiimaha asalka ah waa text.
+// o	className: Waa class-yo dheeraad ah oo loogu talagalay habeynta CSS.
+// o	defaultValue: Waa qiimaha asalka ah ee input-ka haddii aan wax kale lagu soo darin.
+// 3.	Qaabka iyo Shaqada TextInput:
+// javascript
+// Copy code */}
+{/* // return (
+//   <div className={className}>
+//     <label
+//       htmlFor={name}
+//       className="block text-sm font-medium leading-6 text-gray-900 dark:text-slate-50 mb-2 "
+//     >
+//       {label}
+//     </label>
+//     <div className="mt-2">
+//       <input
+//         {...register(`${name}`, { required: isRequired })}
+//         type={type}
+//         name={name}
+//         id={name}
+//         defaultValue={defaultValue}
+//         autoComplete={name}
+//         className="block bg-slate-50 dark:bg-slate-700  p-5 w-full rounded-md border-0 py-3 text-slate-700 dark:text-slate-50 shadow-sm ring-1 ring-inset ring-gray-300
+//          placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-lime-800 dark:focus:ring-lime-800 sm:text-sm sm:leading-6"
+//         placeholder={`Type the ${label.toLowerCase()}`}
+//       />
+//       {errors[`${name}`] && (
+//         <span className="text-sm text-red-600 ">{label} is required</span>
+//       )}
+//     </div>
+//   </div>
+// ); */}
+{/* // o	Label-ka: Waxay ku muujineysaa qoraalka loo dejiyey input-ka iyadoo loo adeegsanayo tag-ga <label>.
+// o	Input-ka: Input-ka waxaa lagu diiwaan geliyaa iyada oo la adeegsanayo method-ka register si loo xakameeyo xogta. Waxaa lagu darayaa magac, nooca input-ka, placeholder, iyo class-yo loogu talagalay qaabka iyo naqshadda.
+// o	Error Message: Haddii input-ku uu khasab yahay (isRequired) oo aan la buuxinin, qoraalka qaladka ah ayaa la soo bandhigayaa.
+// Shaqada: TextInput waa component aad u habeysan oo si sahlan loogu dari karo foomamka gudaha React. Waxaa loogu talagalay in lagu abuuro input nooca text ah oo la
+ xaqiijin karo haddii uu khasab yahay ama maya. Waxaa la socda error handling si loo muujiyo qaladaadka la xiriira buuxinta input-ka. Naqshadeynta component-kan waxa ay
+  taageertaa midabka madow iyo cad (dark mode and light mode). */}
+
+{/* 
+// Sharaxaad:
+// Kani waa React component oo loogu talagalay abuurista form cusub oo lagu sameeyo qayb cusub (category) gudaha nidaamka backoffice. Foomkan waxaa lagu soo daray qaybaha kala duwan sida TextInput, TextareaInput, ImageInput, iyo SubmitButton si loo fududeeyo abuurista iyo kaydinta macluumaadka cusub ee qeybaha.
+// Faahfaahinta Qaybaha Koodka:
+// 1.	Imports:
+// javascript
+// Copy code
+// "use client"
+// import { X } from 'lucide-react'
+// import React, { useState } from 'react'
+// import Formhead from '../../../../../../components/backoffice/Formhead'
+// import TextInput from '../../../../../../components/forminput/Textinput'
+// import SubmiteButton from '@/components/forminput/Submitebutton'
+// import TextareaInput from '@/components/forminput/Textareainput'
+// import { generateSlug } from '../../../../../../lib/generateSlug';
+// import ImageInput from '@/components/forminput/Imageinput'
+// import { useForm } from 'react-hook-form';
+// o	useState: Waxaa loo isticmaalaa in lagu maareeyo xaaladaha (state) gudaha component-ka, sida kaydinta URL-ka sawirka.
+// o	useForm: Waxaa laga helaa thưdiyaasha react-hook-form, oo loo adeegsado maamulka iyo xaqiijinta foomka.
+// o	generateSlug: Waxaa loo isticmaalaa in laga sameeyo URL-ka ku habboon (slug) magacyada qaybaha si ay u noqdaan kuwo u fudud URL. */}
+{/* // 2.	State Management:
+// javascript
+// Copy code
+// const [imageUrl, setImageUrl] = useState("");
+// const {register,handleSubmit,formState: { errors },} = useForm();
+// o	imageUrl iyo setImageUrl: Waxaa loo isticmaalaa in lagu kaydiyo URL-ka sawirka qaybta cusub.
+// o	useForm: Waxaa loo isticmaalaa in lagu diiwaan geliyo qeybaha foomka iyo in lagu maareeyo xaqiijinta iyo qaladaadka.
+// 3.	Function-ka onSubmit:
+// javascript
+// Copy code
+// async function onSubmit(data) {
+//   const slug = generateSlug(data.title); // hubi in generateSlug shaqeeyso
+//   data.slug = slug;
+//   console.log(data);
+// }
+// o	Marka foomka la submit gareeyo, xogta waxaa la sameeyaa slug iyadoo la adeegsanayo generateSlug, kadibna waxaa loo diyaariyaa in la daabaco ama loo diro server.
+// 4.	Qaabka Foomka:
+// javascript
+// Copy code
+// return ( */}
+{/* //   <div className=''>
+//     <Formhead Title="new categaries"/>
+//     <form onSubmit={handleSubmit(onSubmit)} className="w-full max-w-4xl p-4  border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 text-slate-700 dark:text-white
+//      bg-white dark:bg-gray-700 dark:border-gray-700 mx-auto my-3 mt-10">
+//       <div className='grid gap-4 sm:grid-cols-2 sm:gap-6 '>
+//         <TextInput    
+//           label="Category Title"
+//           name="title"
+//           register={register}
+//           errors={errors}/>
+//         <TextareaInput 
+//           label="Category Description"
+//           name="description"
+//           register={register}
+//           errors={errors}/>
+//         <ImageInput 
+//           imageUrl={imageUrl} 
+//           setImageUrl={setImageUrl} 
+//           endpoint="categoryimageuploade" 
+//           label="categaries image" 
+//         />
+//       </div> 
+//       <SubmiteButton isloading={false} Titlebutton="Create categaries"  loadingbuttontitle="Create categaries please wait..."/>
+//     </form>
+//   </div>
+// ) */}
+{/* // o	Formhead: Waxaa lagu daray si loo muujiyo madaxa (header) foomka oo wata qoraalka "new categories".
+// o	TextInput: Waxaa loo isticmaalaa gelinta magaca qaybta.
+// o	TextareaInput: Waxaa loo adeegsaday gelinta sharaxaadda qaybta.
+// o	ImageInput: Waxaa lagu dari karaa sawir la xidhiidha qaybta cusub.
+// o	SubmiteButton: Waa badhanka la gujinayo si loo submit gareeyo foomka, isagoo muujinaya xaalad loading ah haddii loo baahdo. */}
+{/* Shaqada: Foomkan waxaa loo isticmaalaa abuurista qeyb cusub oo ku jirta nidaamka backoffice. Waxa uu adeegsadaa react-hook-form si loo xaqiijiyo xogta laga soo gudbiyo 
+foomka iyo in la xakameeyo xaaladaha loading-ka iyo sawirka. Input kasta waxaa lagu xakameeyaa diiwaangelin (registration) iyo xaqiijin (validation) si loo hubiyo in xogta 
+la kaydiyay ay sax tahay. */}
+

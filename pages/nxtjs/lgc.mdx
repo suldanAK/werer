@@ -1,0 +1,113 @@
+# Logical next and reacr js 
+1. ### && (Logical AND)
+Operator-ka && wuxuu u adeegsadaa laba qiime wuxuuna soo celiyaa true haddii labada qiimeba ay yihiin true, haddii kale wuxuu soo celiyaa false.
+tusaale 
+const a = true;
+const b = false;
+
+console.log(a && b); // Output: false
+Sharaxaad:
+•	Halkan, a waa true, laakiin b waa false.
+•	a && b wuxuu noqon doonaa false maxaa yeelay && wuxuu u baahan yahay labada qiimeba inay yihiin true si uu u noqdo true.
+`tusaale `
+console.log(a && true); 
+Sharaxaad:
+•	Halkan, a iyo true labaduba waa true.
+•	a && true wuxuu noqon doonaa true maxaa yeelay labada qiimeba waa true.
+
+
+2. ###  || (Logical OR)
+Operator-ka || wuxuu u adeegsadaa laba qiime wuxuuna soo celiyaa true haddii midkoodna uu yahay true, haddii kale wuxuu soo celiyaa false.
+tusaale 
+const a = true;
+const b = false;
+
+console.log(a || b); // Output: true
+Sharaxaad:
+•	Halkan, a waa true, b waa false.
+•	a || b wuxuu noqon doonaa true maxaa yeelay midkood (a) waa true.
+tusaale
+console.log(b || false); 
+Sharaxaad:
+•	Halkan, b iyo false labaduba waa false.
+•	b || false wuxuu noqon doonaa false maxaa yeelay labaduba waa false.
+
+
+3. ###  ! (Logical NOT)
+Operator-ka ! wuxuu u rogaa qiimaha boolean-ka ee la siiyey. Haddii uu yahay true, wuxuu u rogaa false, haddii uu yahay false, wuxuu u rogaa true.
+tusaale
+const a = true;
+const b = false;
+
+console.log(!a); 
+Sharaxaad:
+•	Halkan, a waa true.
+•	!a wuxuu noqon doonaa false maxaa yeelay ! wuxuu u rogaa qiimaha.
+tusaale
+console.log(!b); // Output: true
+Sharaxaad:
+•	Halkan, b waa false.
+•	!b wuxuu noqon doonaa true maxaa yeelay ! wuxuu u rogaa qiimaha.
+
+4. ###  ?? (Nullish Coalescing)
+Operator-ka ?? wuxuu soo celiyaa qiimaha koowaad haddii aanu ahayn null ama undefined. Haddii kale wuxuu soo celiyaa qiimaha labaad.
+tusaale
+const a = null;
+const b = "Hello";
+
+console.log(a ?? "Default"); 
+Sharaxaad:
+•	Halkan, a waa null.
+•	a ?? "Default" wuxuu noqon doonaa "Default" maxaa yeelay a waa null.
+tusaale 
+console.log(b ?? "Default"); // Output: "Hello"
+Sharaxaad:
+•	Halkan, b waa "Hello".
+•	b ?? "Default" wuxuu noqon doonaa "Hello" maxaa yeelay b ma ahan null ama undefined.
+
+
+5. ###  ? : (Ternary Operator)
+Ternary operator wuxuu leeyahay saddex qaybood: xaalad, qiimaha haddii xaaladdu tahay true, iyo qiimaha haddii xaaladdu tahay false. Wuxuu ka shaqeeyaa sidan:
+tusale 
+const age = 18;
+const isAdult =` age >= 18 ? "Yes" : "No";`
+
+console.log(isAdult); 
+Sharaxaad:
+•	Halkan, age >= 18 waa true.
+•	Hadday xaaladdu tahay true (sida halkan), isAdult wuxuu noqon doonaa "Yes".
+•	Haddii xaaladdu ahayd false, isAdult wuxuu noqon lahaa "No".
+
+6. ###  === (Strict Equality)
+Operator-ka === wuxuu hubiyaa in labada qiime ay isku mid yihiin oo ay leeyihiin isla type (nooca).
+tusaale
+const a = 5;
+const b = "5";
+
+console.log(a === b); 
+Sharaxaad:
+•	Halkan, a waa number (5), b waa string ("5").
+•	a === b wuxuu noqon doonaa false maxaa yeelay noocyadoodu waa kala duwan yihiin.
+javascript
+Copy code
+console.log(a === 5); // Output: true
+Sharaxaad:
+•	Halkan, a waa number (5).
+•	a === 5 wuxuu noqon doonaa true maxaa yeelay labaduba waa isla number 5 oo isku type ah.
+
+7. ###  == (Equality)
+Operator-ka == wuxuu hubiyaa in labada qiime ay isku mid yihiin isagoo aan eegin noocyadooda (waxay sameeyaan type conversion haddii loo baahdo).
+tusaale
+const a = 5;
+const b = "5";
+
+console.log(a == b);
+Sharaxaad:
+•	Halkan, a waa number (5), b waa string ("5").
+•	a == b wuxuu noqon doonaa true maxaa yeelay waxay leeyihiin qiimo isku mid ah ka dib marka la sameeyo type conversion.
+tusaale
+console.log(a == 6); // Output: false
+Sharaxaad:
+•	Halkan, a waa number (5).
+•	a == 6 wuxuu noqon doonaa false maxaa yeelay qiimuhu waa kala duwan yahay.
+

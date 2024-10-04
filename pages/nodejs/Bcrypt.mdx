@@ -1,0 +1,149 @@
+# waa maxay bcrypt 
+
+##  bcrypt  
+waa library loo isticmaalo habayn iyo amniga eray-bixinta (passwords) si loogu kaydiyo database-yada amni ahaan. Waxay isticmaashaa farsamooyin badan 
+oo amniga kordhiya, sida "salting" iyo "hashing," taasoo adkeyneysa in erayada sirta ah ee hashka lagu kaydiyay la ogaado.
+
+
+
+waxa muhiim ah inad hore u taqanay `node js iyo typescript ` waxa ana soo qadan doon tusala ku quran `node js iyo typecrtipt `
+waa inad taqana` mongodb` ama mide ka mide `database`  
+
+###  Node.js:
+Tusaalaha hoose wuxuu ku tuseysaa sida loo isticmaalo `bcrypt `si loo abuuro hash erayga sirta ah loona xaqiijiyo.
+
+# installation  ku shubda file ` bcrypt`
+
+```hash filename = "> installation bcrypt terninal"
+npm install bcrypt
+
+
+```
+
+
+```hash filename = "> installation bcrypt terninal"
+npm install bcrypt
+
+
+```
+
+
+
+```hash filename = "> installation bcrypt terninal"
+
+// pages/api/hashPassword.js
+import bcrypt from 'bcrypt';
+
+export default async function handler(req, res) {
+    {
+        const { password } = req.body;
+        {/* waxa ka kenay prisma ama mongodb cod kan  */}
+
+        const saltRounds = 10;
+        {/* password number 10 15 adiga inta rabto in noqodo weye ogow tusale kale jiro  */}
+
+        try {
+            {/*hidden password ayan abuur nay  */}
+            const hashedPassword = await bcrypt.hash(password, saltRounds);
+            {/*  */}
+
+            res.status(200).json({ hashedPassword });
+        } catch (error) {
+            res.status(500).json({ error: 'Error hashing password' });
+        }
+    } else {
+        res.status(405).json({ message: 'Only POST requests allowed' });
+    }
+}
+
+
+
+```
+
+
+
+#  tusaale const hashedPassword = await bcrypt.hash(password, 10);
+
+
+1. ### bcrypt  
+
+bcrypt waa library ama maktabad loo isticmaalo inay si ammaan ah u sameyso hashing-ka iyo encryption-ka furahaaga sirta ah (passwords). Tani waxay ka hortagtaa in furahaaga
+ sirta ah lagu kaydiyo qaab aan ammaan ahayn, taasoo ka ilaalinaysa haddii xogtaada la jabsado.
+2. ### bcrypt.hash:
+
+bcrypt.hash waa method ka mid ah bcrypt oo loo isticmaalo inuu sameeyo hashing-ka furaha sirta ah. Hashing wuxuu u badalayaa furaha sirta ah mid aan la arki karin oo aan dib
+ loogu rogi karin (one-way encryption). Taasi macnaheedu waa marka furaha sirta ah la hash gareeyo, waxaad isticmaashaa shaashadda cusub ee loo yaqaan 'hashed password'.
+3. ### password:
+
+password waa furaha sirta ah ee isticmaalehu geliyo, taas oo aad rabto inaad u hash gareyso. Waa variable ka kooban string-ka furaha sirta ah ee loo beddelayo hash.
+4.  ### saltRounds:
+
+saltRounds wuxuu tilmaamayaa tirada wareegyada (rounds) ama heerka 'salting'. Salt waa wax laga daro furaha sirta ah si loo abuuro hash gaar ah oo aad u adag, xitaa haddii 
+furayaasha sirta ah ay isku mid yihiin. saltRounds wuxuu sare u qaadaa heerka amniga, laakiin wuxuu kordhiyaa xawaaraha hawlgalka (waqtiga loo baahan yahay si loo abuuro hash-ka).
+5. ### await:
+
+await waxaa loo isticmaalaa si loo sugo natiijada function-kaan bcrypt.hash ka hor intaadan u gudbin tallaabooyinka xiga. Tan waxaa loo adeegsadaa si looga shaqeeyo hab 
+asynchronous (oo aan qasab ahayn inay sugto howsha hash-gareynta), taasoo hagaajinaysa waxqabadka.
+
+
+### Sida uu u shaqeeyo:
+Markaad wacdo bcrypt.hash, waxa uu qaataa furaha sirta ah iyo tirada wareegyada 'salt' si uu u sameeyo hash.
+Bcrypt wuxuu soo saaraa furaha sirta ah ee la hash gareeyay (hashed password).
+Hash-kaan waxaa la keydin karaa oo loo isticmaali karaa marka isticmaaluhu isku dayo inuu galo, isagoo barbardhigaya hash-ka keydsan iyo kan cusub ee uu soo geliyo.
+### Faa'iido:
+
+Habkaani wuxuu ka hortagayaa in furaha sirta ah si sahlan loo jabsado ama loo garto, xitaa haddii xogtaadu gasho gacmo khaldan.
+
+
+# waa maxay bcrypt.compare
+
+
+`bcrypt.compare` waa habka loo isticmaalo si loo xaqiijiyo haddii erayga sirta ah ee user-ku soo geliyo uu la mid yahay hash-kii markii hore loo keydiyey. Marka user-ku eray
+ sir ah galiyo, laguma keydiyo qaabka asalka ah (plaintext), ee waxaa loo beddelaa hash, ka dibna hashkaas ayaa la keydiyaa.
+
+Marka erayga sirta ah dib loo xaqiijiyo (authentication), habka` bcrypt.compare` ayaa la isticmaalaa si loo hubiyo haddii hashka keydsan uu la mid yahay erayga sirta ah ee 
+user-ku soo geliyo markaas.
+
+
+## Sida `bcrypt.compare `u shaqeeyo:
+Erayga sirta ah ee user-ku geliyo: Marka user-ka laga doonayo inuu dib u galo, wuxuu gelinayaa eray sir ah oo caadi ah (plaintext password).
+
+Hashka la keydiyey: Tani waa hash erayga sirta ah ee markii hore lagu sameeyey farsamada` bcrypt.hash `lana kaydiyey database-ka.
+
+Barbardhiga: `bcrypt.compare` waxay qaadataa labada eray:
+
+Erayga user-ku soo geliyo (plaintext).
+Hashka la kaydiyey (waxay noqon kartaa hash hore loo sameeyey oo database-ka ku keydsan).
+Habka shaqada: Bcrypt waxay isticmaashaa "salting" iyo hab kale oo farsamo si ay u tijaabiso haddii hashka laga soo saari karo erayga sirta ah ee user-ku geliyey. Waxay isticmaashaa habka isla markaas "hashing" 
+si loo arko haddii natiijadu u dhiganto hashkii la keydiyay.
+
+
+
+```hash filename= "> bcrypt check function "
+{/* import gareyn */}
+const bcrypt = require('bcrypt'); 
+
+// Erayga sirta ah ee user-ku soo geliyo ama user old password kiis 
+const enteredPassword = '123456';
+
+// Hash-kii hore loo sameeyay oo laga kaydiyay database  '123456' waa hash database yaal tusaale hore loo kaydiyay 
+const storedHash = '$2b$10$LJfA/6a6T.a/bqPLjTQXl.C3nX1Zp/mYPpb89yM7M9iw2VfUZFAAe';
+
+// Xaqiiji haddii erayga sirta ah ee user-ku soo geliyay uu saxan yahay
+bcrypt.compare(enteredPassword, storedHash, function(err, result) {
+    if (err) {
+        console.error(' error  ', err);
+    } else if (result) {
+        console.log('Password wuu saxan yahay password');  // user xogtiis aya heli donta waa side u shaqyo facebook 
+    } else {
+        console.log('wuu qaladan yahay password kaaga faldan markle isku day');  // False
+    }
+});
+
+
+```
+
+`
+Mahadsanid! Aad baad ugu mahadsantahay wakhtigaaga iyo kalsoonida aad noo muujisay. Waxaa sharaf weyn noo ah inaan ku caawino, waxaanan rajaynaynaa in shaqadeenu ay gacan ka geysatay guulahaaga. Haddii aad tahay macalin, arday, ama YouTuber, waxa aad waddo waa mid muhiim ah, oo waxtar leh, waxaana ku hanweynahay inaad dooratay inaad nala shaqeyso.
+
+Markasta oo aad u baahato taageero, waxaan diyaar u nahay inaan kugu garab istaagno. Waad ku mahadsan tahay, waana ku bogaadinaynaa dadaalkaaga iyo sida aad ugu adkaysatay horumarkaaga. Guul iyo farxad baan kuu rajaynaynaa! 🙏✨`

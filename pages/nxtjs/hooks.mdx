@@ -1,0 +1,371 @@
+
+
+### Faahfaahinta Isticmaalka React Hooks
+
+### 1. useState Hook
+`useState` waxaa loo isticmaalaa in lagu abuuro xaalad (state) gudaha shaqo-funciyada. Waa mid ka mid ah hooks-ka ugu muhiimsan ee React.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useState } from 'react';
+
+function Counter() {
+  // Ku abuuri xaalad cusub oo loo yaqaan 'count' oo ku jirta 0
+  const [count, setCount] = useState(0);
+
+  return (
+    <div>
+      <p>Waxaad riixday batoonka {count} jeer</p>
+      <button onClick={() => setCount(count + 1)}>
+        Riix i
+      </button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+**Sharaxaad:**
+- Waxaan isticmaaleeynaa `useState` si aan u abuurno xaalad cusub oo loogu magac daray `count` oo qiimaheedu yahay 0 markii hore.
+- `setCount` waa shaqada aan u isticmaaleyno in aan ku beddelno qiimaha `count`.
+- Markii batoonka la riixo, `setCount` waxaa loo isticmaalaa in lagu kordhiyo `count` hal.
+
+### 2. useEffect Hook
+`useEffect` waxaa loo isticmaalaa in lagu fuliyo hawlo dhinaca ah (side effects) gudaha shaqo-funciyada. Waxaa loo isticmaalaa in lagu beddelo nolol-cycle methods sida `componentDidMount`, `componentDidUpdate`, iyo `componentWillUnmount`.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useState, useEffect } from 'react';
+
+function Example() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    // Waxaa la fulin doonaa mar kasta oo 'count' isbedelo
+    document.title = `Waxaad riixday ${count} jeer`;
+  }, [count]); // Array dependency, oo ay ku jiraan count
+
+  return (
+    <div>
+      <p>Waxaad riixday batoonka {count} jeer</p>
+      <button onClick={() => setCount(count + 1)}>
+        Riix i
+      </button>
+    </div>
+  );
+}
+
+export default Example;
+```
+
+**Sharaxaad:**
+- `useEffect` waxaa la fulin doonaa mar kasta oo `count` isbedelo.
+- Array dependency ee `useEffect` ayaa muujinaya in hawsha dhinaca ah ay dib u socoto markii `count` is bedelo.
+- Waxaa muhiim ah in la fahmo sida array dependency uu u shaqeeyo si loo yareeyo waxqabadka xun (performance issues).
+
+### 3. useContext Hook
+`useContext` waxaa loo isticmaalaa in lagu isticmaalo qiimaha laga helo Context. Tani waxay fududeyneysaa wadaagga xaaladaha (state) iyo qiimaha u dhexeeya qaybaha kala duwan ee codsigaaga.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useContext, createContext } from 'react';
+
+// Abuur context cusub
+const MyContext = createContext();
+
+function MyProvider({ children }) {
+  const value = "Hello, World!";
+  return (
+    <MyContext.Provider value={value}>
+      {children}
+    </MyContext.Provider>
+  );
+}
+
+function MyComponent() {
+  const value = useContext(MyContext);
+  return <p>{value}</p>;
+}
+
+function App() {
+  return (
+    <MyProvider>
+      <MyComponent />
+    </MyProvider>
+  );
+}
+
+export default App;
+```
+
+**Sharaxaad:**
+- `createContext` waxaa loo isticmaalaa in lagu abuuro context cusub.
+- `MyProvider` waxay ku wareejinaysaa `MyContext.Provider` qiimaha la isticmaalayo.
+- `useContext` waxaa loo isticmaalaa gudaha `MyComponent` si loo helo qiimaha `MyContext`.
+
+### 4. useReducer Hook
+`useReducer` waxaa loo isticmaalaa in lagu maareeyo xaalado adag (complex state logic). Waxay ka shaqeysaa qaab la mid ah `useState`, laakiin waxay kugu qasbeysaa inaad isticmaasho reducers oo ah shaqooyin bedela xaaladda iyadoo ku saleysan ficillo (actions).
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useReducer } from 'react';
+
+// Xaalad bilow ah
+const initialState = { count: 0 };
+
+// Reducer function
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+**Sharaxaad:**
+- `useReducer` waxay qaadataa laba huwan: `reducer` function iyo `initialState`.
+- `dispatch` function waxaa loo isticmaalaa in lagu diraa ficillo (`actions`) si loo bedelo xaaladda (`state`).
+- `reducer` function wuxuu ku saleysan yahay ficilka (action) uu helo oo bedela xaaladda (state) iyadoo la raacayo kiiska (case) ficilka.
+
+### 5. useCallback Hook
+`useCallback` waxaa loo isticmaalaa in lagu xafido (memoize) shaqo (function) si aysan u abuurin shaqo cusub mar kasta oo qaybtu dib u sawirayso. Tani waa mid faa'iido leh markaad soo bandhigayso shaqooyin loo gudbiyo qaybaha hooseeya.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useState, useCallback } from 'react';
+
+function Parent() {
+  const [count, setCount] = useState(0);
+  
+  const handleClick = useCallback(() => {
+    console.log("Clicked!");
+  }, []);
+
+  return (
+    <div>
+      <Child handleClick={handleClick} />
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <p>Count: {count}</p>
+    </div>
+  );
+}
+
+function Child({ handleClick }) {
+  return <button onClick={handleClick}>Click me</button>;
+}
+
+export default Parent;
+```
+
+**Sharaxaad:**
+- `useCallback` waxaa loo isticmaalaa in lagu abuuro shaqo xafidan (memoized function).
+- Shaqada `handleClick` waxaa la abuuraa oo kaliya mar haddii waxyaabaha ku jira array dependency is bedelaan.
+
+### 6. useMemo Hook
+`useMemo` waxaa loo isticmaalaa in lagu xafido (memoize) qiimayaal la soo saaray si aysan dib ugu soo celin mar kasta oo qaybtu dib u sawirayso. Tani waa mid faa'iido leh markaad qabato xisaabaadyo culus ama ficillo qaalisan.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useState, useMemo } from 'react';
+
+function ExpensiveCalculation(num) {
+  console.log("Calculating...");
+  return num * 2;
+}
+
+function App() {
+  const [count, setCount] = useState(0);
+  const [number, setNumber] = useState(1);
+
+  const doubleNumber = useMemo(() => ExpensiveCalculation(number), [number]);
+
+  return (
+    <div>
+      <p>Double: {doubleNumber}</p>
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <button onClick={() => setNumber(number + 1)}>Increment Number</button>
+      <p>Count: {count}</p>
+      <p>Number: {number}</p>
+    </div>
+  );
+}
+
+export default App;
+```
+
+**Sharaxaad:**
+- `useMemo` waxaa loo isticmaalaa in lagu abuuro qiime xafidan (memoized value).
+- Xisaabinta culus waxaa la sameeyaa oo kaliya mar haddii waxyaabaha ku jira array dependency is bedelaan.
+
+### 7. useRef Hook
+`useRef` waxaa loo isticmaalaa in lagu abuuro tixraacyo (references) taagan oo aan keeni doonin dib u sawiridda (re-renders) marka ay bedelaan. Waxaa badanaa loo isticmaalaa in lagu helo tixraac (reference) DOM element ama lagu kaydiyo qiimo la taaban karo oo uusan sababin dib u sawirid.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useRef } from 'react';
+
+function TextInputWithFocusButton() {
+  const inputEl = useRef(null);
+
+  const onButtonClick = () => {
+    inputEl.current.focus();
+  };
+
+  return (
+    <div
+
+>
+      <input ref={inputEl} type="text" />
+      <button onClick={onButtonClick}>Focus the input</button>
+    </div>
+  );
+}
+
+export default TextInputWithFocusButton;
+```
+
+**Sharaxaad:**
+- `useRef` waxaa loo isticmaalaa in lagu abuuro tixraac cusub.
+- Shaqada `onButtonClick` waxay isticmaashaa `inputEl.current.focus()` si ay u diiriso (focus) input-ka.
+
+### 8. useImperativeHandle Hook
+`useImperativeHandle` waxaa loo isticmaalaa in lagu habeyo (customize) waxa la soo bandhigay marka `useRef` loo gudbiyo qaybaha. Waxay kuu oggolaaneysaa inaad koontaroolo tixraacyada la isticmaalo qaybaha.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useRef, useImperativeHandle, forwardRef } from 'react';
+
+const FancyInput = forwardRef((props, ref) => {
+  const inputRef = useRef();
+
+  useImperativeHandle(ref, () => ({
+    focus: () => {
+      inputRef.current.focus();
+    }
+  }));
+
+  return <input ref={inputRef} type="text" />;
+});
+
+function App() {
+  const inputRef = useRef();
+
+  return (
+    <div>
+      <FancyInput ref={inputRef} />
+      <button onClick={() => inputRef.current.focus()}>Focus the input</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+**Sharaxaad:**
+- `useImperativeHandle` waxaa loo isticmaalaa in lagu habeyo waxa tixraaca (`ref`) la bixinayo.
+- `forwardRef` waxaa loo isticmaalaa si loo gudbiyo tixraaca (`ref`) qaybaha hooseeya.
+
+### 9. useLayoutEffect Hook
+`useLayoutEffect` waa mid la mid ah `useEffect`, laakiin waxay fulisaa ka hor inta aan browser-ka sawirin wixii isbeddel ah. Waxaa badanaa loo isticmaalaa markaad u baahan tahay inaad cabbirto ama aad bedesho DOM ka hor inta aan sawiriddu dhicin.
+
+#### Tusaale Faahfaahsan:
+
+ ```hash copy filename=">Terminal "
+import React, { useState, useLayoutEffect, useRef } from 'react';
+
+function App() {
+  const [width, setWidth] = useState(0);
+  const divRef = useRef();
+
+  useLayoutEffect(() => {
+    setWidth(divRef.current.offsetWidth);
+  }, []);
+
+  return (
+    <div>
+      <div ref={divRef}>I am a div</div>
+      <p>My width is: {width}px</p>
+    </div>
+  );
+}
+
+export default App;
+```
+
+**Sharaxaad:**
+- `useLayoutEffect` waxaa loo isticmaalaa si loo fuliyo hawlo ka hor inta aan browser-ku sawirin wixii isbeddel ah.
+- `setWidth` waxaa la isticmaalaa si loo cabbiro ballaca (width) `divRef.current.offsetWidth`.
+
+### 10. useDebugValue Hook
+`useDebugValue` waxaa loo isticmaalaa in lagu soo bandhigo qiimaha caadada ah (custom) ee Hooks-ka caadada ah markaad isticmaalayso qalab debug sida React DevTools.
+
+#### Tusaale Faahfaahsan:
+ ```hash copy filename=">Terminal "t
+import React, { useState, useEffect, useDebugValue } from 'react';
+
+function useFriendStatus(friendID) {
+  const [isOnline, setIsOnline] = useState(null);
+
+  useDebugValue(isOnline ? 'Online' : 'Offline');
+
+  useEffect(() => {
+    function handleStatusChange(status) {
+      setIsOnline(status.isOnline);
+    }
+
+    // Assume we have a API to subscribe to friend's status
+    ChatAPI.subscribeToFriendStatus(friendID, handleStatusChange);
+    return () => {
+      ChatAPI.unsubscribeFromFriendStatus(friendID, handleStatusChange);
+    };
+  }, [friendID]);
+
+  return isOnline;
+}
+
+function FriendStatus({ friendID }) {
+  const isOnline = useFriendStatus(friendID);
+
+  if (isOnline === null) return 'Loading...';
+  return isOnline ? 'Online' : 'Offline';
+}
+
+export default FriendStatus;
+```
+
+**Sharaxaad:**
+- `useDebugValue` waxaa loo isticmaalaa in lagu soo bandhigo qiimaha debug-ka.
+- Tani waa mid waxtar leh markaad abuurayso hooks caado u gaar ah oo aad rabto inaad si sahlan u fahmi karto markaad isticmaalayso React DevTools.
+
+
+
+Mahadsanid! Aad baad ugu mahadsantahay wakhtigaaga iyo kalsoonida aad noo muujisay. Waxaa sharaf weyn noo ah inaan ku caawino, waxaanan rajaynaynaa in shaqadeenu ay gacan ka geysatay guulahaaga. Haddii aad tahay macalin, arday, ama YouTuber, waxa aad waddo waa mid muhiim ah, oo waxtar leh, waxaana ku hanweynahay inaad dooratay inaad nala shaqeyso.
+
+Markasta oo aad u baahato taageero, waxaan diyaar u nahay inaan kugu garab istaagno. Waad ku mahadsan tahay, waana ku bogaadinaynaa dadaalkaaga iyo sida aad ugu adkaysatay horumarkaaga. Guul iyo farxad baan kuu rajaynaynaa! 🙏✨`

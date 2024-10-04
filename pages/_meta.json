@@ -1,0 +1,17 @@
+{
+  "index": "home page",
+  "akdev": "about website",
+  "instT": "Tailwind CSS",
+  "nodejs": "node js tutorial",
+  "nxtjs": "next  js all hooks ",
+  "about": {
+    "title": "About",
+    "type": "page"
+  },
+  "contact": {
+    "title": "Contact ↗",
+    "type": "page",
+    "href": "https://twitter.com/shuding_",
+    "newWindow": true
+  }
+}

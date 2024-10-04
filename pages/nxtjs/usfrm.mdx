@@ -1,0 +1,239 @@
+
+# React Hook Form
+react Hook Form waa maktabad fudud oo si ballaaran loo isticmaalo si loo maareeyo foomamka React-ka iyadoo la isticmaalayo React hooks. Waxay 
+bixisaa hab wax ku ool ah oo fudud oo lagu abuuro foomamka iyadoo la yareynayo tirada render-ada iyo hagaajinta waxqabadka. Hoos waxaa ku qoran faahfaahin dheeraad 
+ah iyo tusaalayaal dhammaan hooks-ka ugu muhiimsan ee `React Hook Form.`
+
+ ```hash copy filename=">Terminal "
+npm install react-hook-form
+```
+
+1. #  useForm
+ ```hash copy filename=">Terminal "
+import React from 'react';
+import { useForm } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm();
+  const onSubmit = data => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('firstName', { required: true })} />
+      {errors.firstName && <span>This field is required</span>}
+      
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+Faahfaahin:
+•	`register:` Waxaa loo isticmaalaa in lagu diiwaangeliyo input-yada si loo maareeyo xaaladooda.
+•	`handleSubmit:` Waxaa loo isticmaalaa in lagu maareeyo dhacdada submit-ka foomka.
+•	`watch`: Waxaa loo isticmaalaa in lagu helo xaaladda hadda ee input-ka.
+•	`formState:` Waxaa ku jira xaaladaha foomka sida errors.
+
+2. # useController
+
+ ```hash copy filename=">Terminal "
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+
+function App() {
+  const { control, handleSubmit } = useForm();
+  const onSubmit = data => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="firstName"
+        control={control}
+        defaultValue=""
+        render={({ field }) => <input {...field} />}
+      />
+      
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+Faahfaahin:
+•	`useController:` Waxaa loo isticmaalaa in lagu sameeyo xakameyn buuxda oo ku saabsan input-yada iyadoo la adeegsanayo Controller component.
+
+3. #  useFieldArray
+
+ ```hash copy filename=">Terminal "
+import React from 'react';
+import { useForm, useFieldArray } from 'react-hook-form';
+
+function App() {
+  const { register, control, handleSubmit } = useForm();
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'test'
+  });
+  const onSubmit = data => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      {fields.map((item, index) => (
+        <div key={item.id}>
+          <input {...register(`test.${index}.name`)} defaultValue={item.name} />
+          <button type="button" onClick={() => remove(index)}>Delete</button>
+        </div>
+      ))}
+      <button type="button" onClick={() => append({ name: '' })}>Add</button>
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+Faahfaahin:
+•	`useFieldArray:` Waxaa loo isticmaalaa in lagu maareeyo arrays-ka foomka, sida liisaska ama sets.
+
+4. # useWatch
+
+ ```hash copy filename=">Terminal "
+import React from 'react';
+import { useForm, useWatch } from 'react-hook-form';
+
+function App() {
+  const { register, control, handleSubmit } = useForm();
+  const onSubmit = data => console.log(data);
+  
+  const watchedValue = useWatch({ control, name: 'example' });
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('example')} />
+      <p>Watched value: {watchedValue}</p>
+      
+      <input type="submit" />
+    </form>
+  );
+}
+```
+Faahfaahin:
+•`	useWatch: `Waxaa loo isticmaalaa in si joogto ah loogu daba-galo input-ka iyada oo aan dib u render gareyn foomka oo dhan.
+
+5. #  useFormContext
+
+ ```hash copy filename=">Terminal "
+import React from 'react';
+import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+
+function Input({ name }) {
+  const { register } = useFormContext();
+  return <input {...register(name)} />;
+}
+
+function App() {
+  const methods = useForm();
+  const onSubmit = data => console.log(data);
+
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <Input name="firstName" />
+        <input type="submit" />
+      </form>
+    </FormProvider>
+  );
+}
+``
+
+Faahfaahin:
+•	`useFormContext:` Waxaa loo isticmaalaa in la abuuro iyo la wadaago xaaladda foomka iyo qodobbada u dhexeeya qaybaha kala duwan.
+
+6. #  useFormState
+
+ ```hash copy filename=">Terminal "
+import React from 'react';
+import { useForm, useFormState } from 'react-hook-form';
+
+function App() {
+  const { register, handleSubmit, control } = useForm();
+  const { errors, isDirty } = useFormState({ control });
+  const onSubmit = data => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <input {...register('example', { required: true })} />
+      {errors.example && <span>This field is required</span>}
+      {isDirty && <p>Form has been changed</p>}
+      
+      <input type="submit" />
+    </form>
+  );
+}
+
+```
+Faahfaahin:
+•`	useFormState:` Waxaa loo isticmaalaa in lagu helo xaaladda hadda ee foomka sida errors iyo isDirty.
+
+7. #  Controller
+
+ ```hash copy filename=">Terminal "e
+import React from 'react';
+import { useForm, Controller } from 'react-hook-form';
+import Select from 'react-select';
+
+function App() {
+  const { control, handleSubmit } = useForm();
+  const onSubmit = data => console.log(data);
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="reactSelect"
+        control={control}
+        render={({ field }) => <Select {...field} options={[{ value: '1', label: 'One' }, { value: '2', label: 'Two' }]} />}
+      />
+      
+      <input type="submit" />
+    </form>
+  );
+}
+```
+
+Faahfaahin:
+•	`Controller: `Waxaa loo isticmaalaa in lagu maareeyo components-ka aan ahayn standard HTML input-yada sida React Select.
+
+8. #  useFormContext
+
+ ```hash copy filename=">Terminal "
+import React from 'react';
+import { useForm, FormProvider, useFormContext } from 'react-hook-form';
+
+function NestedInput() {
+  const { register } = useFormContext();
+  return <input {...register('nestedInput')} />;
+}
+
+function App() {
+  const methods = useForm();
+  const onSubmit = data => console.log(data);
+
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        <NestedInput />
+        <input type="submit" />
+      </form>
+    </FormProvider>
+  );
+}
+```
+
+Faahfaahin:
+•	`useFormContext:` Waxaa loo isticmaalaa si loo helo macluumaadka ku saabsan foomka ee ku jira xaaladda React Hook Form oo laga wadaagayo qaybaha kala duwan.
+
+Soo Koobid:
+React Hook Form waa maktabad xoog leh oo loo isticmaali karo si sahlan loona maareeyo foomamka React. Waxay bixisaa hooks kala duwan sida useForm, useController,
+ useFieldArray, useWatch, useFormContext, useFormState, iyo Controller si loo hagaajiyo horumarinta foomamka oo la yareeyo tirada render-ada iyo waxqabadka la hagaajiyay.
+Maktabadaani waxay ku habboon tahay codsiyada fudud ilaa kuwa adag waxayna fududeyneysaa maareynta xaaladaha foomka iyadoo la isticmaalayo React hooks.
+
+# loading updated
